@@ -97,10 +97,12 @@ public class WidgetExperiments implements EntryPoint {
 
 		public void addArgument(String labelText) {
 			TreeItem argumentTreeItem = new TreeItem(labelText);
-			argumentTreeItem.addItem(new Proposition(argumentTreeItem));
+			Proposition newProposition = new Proposition(argumentTreeItem);
+			argumentTreeItem.addItem( newProposition );
 			this.addItem(argumentTreeItem);
 			argumentTreeItem.setState(true);
 			this.setState(true);
+			newProposition.textArea.setFocus(true);
 		}
 
 		@Override
@@ -154,38 +156,18 @@ public class WidgetExperiments implements EntryPoint {
 		public void onFocus(FocusEvent event) {
 			Object source = event.getSource();
 			if( source == textArea ){
-				if( lastPropositionWithFocus != this ){
+				//if another Proposition's buttons are visible hide them
+				if( lastPropositionWithFocus != this &&
+					lastPropositionWithFocus != null ){
 					lastPropositionWithFocus.proButton.setVisible(false);
 					lastPropositionWithFocus.conButton.setVisible(false);
-					lastPropositionWithFocus = this;
 				}
+				//make this proposition's button's visible
 				proButton.setVisible(true);
 				conButton.setVisible(true);
+				lastPropositionWithFocus = this;
 			}
 		}
-			/*
-			if( source == proButton ||
-					event.getSource() == conButton ){
-				buttonHasFocus = true;
-			} else if (source == textArea ){
-				proButton.setVisible(true);
-				conButton.setVisible(true);
-			}
-		}*/
-/*
-		@Override
-		public void onBlur(BlurEvent event) {
-			Object source = event.getSource();
-			if( source == proButton ||
-					event.getSource() == conButton ){
-				buttonHasFocus = false;
-			} else if (source == textArea &&
-					buttonHasFocus == false ){
-				proButton.setVisible(false);
-				conButton.setVisible(false);
-			}
-		}*/
-
 	}
 
 	private static class TextAreaSloppyGrow extends TextArea {
