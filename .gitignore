@@ -1,4 +1,4 @@
 
 *.class
-*.jar
-war/widgetexperiments/gwt/standard
+#*.jar
+#war/widgetexperiments/gwt/standard
